@@ -3,96 +3,150 @@
 <head>
   <meta charset="UTF-8">
   <meta name="viewport" content="width=device-width, initial-scale=1.0">
-  <title>Подключение DEKO TV</title>
+  <title>DEKO TV — подключение телевидения</title>
   <style>
-    body {
-      font-family: 'Segoe UI', sans-serif;
-      background: linear-gradient(135deg, #141E30, #243B55);
-      color: #fff;
+    @import url('https://fonts.googleapis.com/css2?family=Poppins:wght@400;600&display=swap');
+
+    * {
       margin: 0;
       padding: 0;
+      box-sizing: border-box;
+      font-family: 'Poppins', sans-serif;
+    }
+
+    body {
+      min-height: 100vh;
+      background: radial-gradient(circle at top right, #0b132b, #1c2541, #3a506b);
+      color: #fff;
+      display: flex;
+      flex-direction: column;
+      justify-content: center;
+      align-items: center;
+      overflow-x: hidden;
+    }
+
+    /* Анимированный фон */
+    body::before {
+      content: "";
+      position: fixed;
+      top: 0; left: 0;
+      width: 100%; height: 100%;
+      background: url('https://images.unsplash.com/photo-1616401784845-180882ba9d2e?auto=format&fit=crop&w=1500&q=80') center/cover no-repeat;
+      opacity: 0.15;
+      z-index: -1;
+      animation: zoom 20s infinite alternate ease-in-out;
+    }
+
+    @keyframes zoom {
+      from { transform: scale(1); }
+      to { transform: scale(1.1); }
     }
 
     header {
       text-align: center;
-      padding: 50px 20px 20px;
+      margin-bottom: 30px;
+      animation: fadeIn 1.2s ease-out;
+    }
+
+    header img {
+      width: 120px;
+      margin-bottom: 15px;
     }
 
     header h1 {
-      font-size: 2.5em;
-      margin-bottom: 10px;
-      color: #00b7ff;
+      font-size: 2.5rem;
+      color: #00d4ff;
+      letter-spacing: 1px;
     }
 
     header p {
-      font-size: 1.1em;
-      color: #ddd;
+      font-size: 1.1rem;
+      color: #ccc;
     }
 
     form {
       background: rgba(255, 255, 255, 0.1);
-      backdrop-filter: blur(8px);
-      max-width: 400px;
-      margin: 40px auto;
+      backdrop-filter: blur(12px);
+      border-radius: 20px;
       padding: 30px;
-      border-radius: 15px;
-      box-shadow: 0 0 20px rgba(0, 0, 0, 0.3);
+      max-width: 420px;
+      width: 90%;
+      box-shadow: 0 0 25px rgba(0, 0, 0, 0.4);
+      animation: fadeInUp 1.3s ease-out;
     }
 
     label {
       display: block;
       margin-top: 15px;
-      font-weight: bold;
       color: #fff;
+      font-weight: 600;
+      font-size: 0.95rem;
     }
 
-    select, input {
+    input, select {
       width: 100%;
-      padding: 10px;
+      padding: 12px;
       margin-top: 8px;
       border: none;
-      border-radius: 8px;
-      background-color: rgba(255, 255, 255, 0.9);
-      color: #333;
-      font-size: 1em;
+      border-radius: 10px;
+      font-size: 1rem;
+      background: rgba(255, 255, 255, 0.9);
+      color: #222;
     }
 
     button {
       width: 100%;
-      padding: 12px;
       margin-top: 25px;
+      padding: 14px;
       background: linear-gradient(90deg, #00b7ff, #0078d7);
       border: none;
-      border-radius: 8px;
+      border-radius: 10px;
       color: white;
-      font-size: 1.1em;
+      font-size: 1.1rem;
       cursor: pointer;
       transition: 0.3s;
     }
 
     button:hover {
-      background: linear-gradient(90deg, #00e0ff, #0099ff);
+      background: linear-gradient(90deg, #00e0ff, #00aaff);
       transform: scale(1.03);
     }
 
     footer {
       text-align: center;
-      padding: 20px;
-      color: #bbb;
-      font-size: 0.9em;
+      margin-top: 40px;
+      color: #aaa;
+      font-size: 0.85rem;
+      animation: fadeIn 2s ease-out;
+    }
+
+    @keyframes fadeIn {
+      from { opacity: 0; }
+      to { opacity: 1; }
+    }
+
+    @keyframes fadeInUp {
+      from { opacity: 0; transform: translateY(30px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    @media (max-width: 480px) {
+      header h1 { font-size: 1.8rem; }
+      form { padding: 20px; }
     }
   </style>
 </head>
 <body>
 
   <header>
-    <h1>Подключение DEKO TV</h1>
-    <p>Подключитесь к лучшему телевидению за минуту</p>
+    <img src="https://upload.wikimedia.org/wikipedia/commons/3/3a/TV_icon_3.svg" alt="DEKO TV Logo">
+    <h1>DEKO TV</h1>
+    <p>Подключитесь к цифровому телевидению нового поколения</p>
   </header>
 
   <form id="connectForm">
     <label for="brand">Компания приставки / телевизора</label>
-    <input type="text" id="brand" name="brand" placeholder="Например: Samsung, LG, Xiaomi" required>
+    <input type="text" id="brand" name="brand" placeholder="Samsung, LG, Philips..." required>
 
     <label for="model">Модель</label>
     <input type="text" id="model" name="model" placeholder="Введите модель устройства" required>
@@ -122,9 +176,11 @@
   </footer>
 
   <script>
-    document.getElementById("connectForm").addEventListener("submit", function(event) {
-      event.preventDefault();
-      alert("Спасибо! Ваша заявка на подключение DEKO TV отправлена.");
+    document.getElementById("connectForm").addEventListener("submit", function(e) {
+      e.preventDefault();
+      const brand = document.getElementById("brand").value;
+      alert(`Спасибо, ${brand} успешно добавлен! Ваша заявка на подключение DEKO TV отправлена.`);
+      e.target.reset();
     });
   </script>
 
